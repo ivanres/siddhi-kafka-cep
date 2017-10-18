@@ -35,8 +35,12 @@ public class RestServer {
       new SiddhiStreamsProducer(body.getTopic(), body.getBootstrapServers(), streamId);
 
     for (List<Object> data: body.getData()) {
-      streamsProducer.produce(Arrays.asList(data));
+      //streamsProducer.produce(Arrays.asList(data)); //original
+      streamsProducer.produce(data.toArray()); //fix
     }
+
+    //streamsProducer.produce(Arrays.asList("Rectangle", 18.0, 18).toArray());
+
     streamsProducer.shutdown();
     return Response.created(new URI(streamId)).build();
   }
